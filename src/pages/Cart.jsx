@@ -1,5 +1,6 @@
 import React from "react";
 import { useCart } from "../context/CartContext";
+import { Link } from "react-router-dom";
 
 function Cart() {
   const { cartItems, removeFromCart, decreaseQuantity, increaseQuantity } =
@@ -15,12 +16,25 @@ function Cart() {
           {cartItems.map((item) => (
             <div
               key={item.id}
-              className="border p-4 rounded flex justify-between items-center"
+              className="flex items-center justify-between gap-4 border-b pb-4"
             >
-              <div>
-                <h3 className="font-semibold">{item.name}</h3>
-                <p>Qty: {item.quantity}</p>
-                <p className="text-green-600">₹{item.price * item.quantity}</p>
+              <img
+                src={item.image}
+                alt={item.name}
+                className="w-16 h-16 object-cover rounded"
+              />
+
+              <div className="flex-1">
+                <p className="font-semibold">{item.name}</p>
+                <p className="text-sm text-gray-600">
+                  ₹{item.price} × {item.quantity}
+                </p>
+              </div>
+
+              <div className="text-right">
+                <p className="text-green-700 font-semibold">
+                  ₹{item.price * item.quantity}
+                </p>
                 <div className="flex items-center mt-2">
                   <button
                     onClick={() => decreaseQuantity(item.id)}
@@ -56,9 +70,11 @@ function Cart() {
               0
             )}
           </h3>
-          <button className="mt-2 bg-green-600 text-white px-4 py-2 rounded">
-            Checkout
-          </button>
+          <Link to="/checkout">
+            <button className="mt-2 bg-green-600 text-white px-4 py-2 rounded">
+              Checkout
+            </button>
+          </Link>
         </div>
       )}
     </div>
