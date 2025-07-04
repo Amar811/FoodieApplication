@@ -1,10 +1,12 @@
 import React from "react";
 import { useCart } from "../context/CartContext";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 function Checkout() {
   const { cartItems, clearCart } = useCart();
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const total = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -16,10 +18,36 @@ function Checkout() {
       alert("Cart is empty!");
       return;
     }
-    alert("🎉 Order placed successfully!");
+
+    const newOrder = {
+      id: Date.now(),
+      items: cartItems,
+      total,
+      date: new Date().toLocaleString(),
+    };
+
+    //Get user key
+    const userKey = user?.username || "guest";
+
+    //save to localstorage
+    const key = `orders_${userKey}`;
+    const existingOrders = JSON.parse(localStorage.getItem(key)) || [];
+    const updatedOrders = [...existingOrders, newOrder];
+    localStorage.setItem(key, JSON.stringify(updatedOrders));
+
+    // alert("🎉 Order placed successfully!");
     clearCart();
-    navigate("/");
+    navigate("/thank-you", { state: { order: newOrder } });
+
   };
+
+ const handleFakePayment = () => {
+  const confirmed = window.confirm("Proceed with Payment");
+  if (confirmed) {
+    handlePlaceOrder();
+  }
+};
+
 
   return (
     <div className="max-w-2xl mx-auto p-4">
@@ -56,10 +84,10 @@ function Checkout() {
           <hr />
           <div className="text-right font-bold text-lg">Total: ₹{total}</div>
           <button
-            onClick={handlePlaceOrder}
+            onClick={handleFakePayment}
             className="mt-4 w-full bg-green-600 text-white py-2 rounded"
           >
-            Place Order
+            Pay Now
           </button>
         </div>
       )}

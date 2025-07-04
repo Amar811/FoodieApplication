@@ -12,7 +12,7 @@ const Navbar = () => {
     logout();
     navigate("/login");
   };
- console.log("Logged in user:", user);
+  console.log("Logged in user:", user);
 
   return (
     <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
@@ -27,6 +27,10 @@ const Navbar = () => {
             <Link to="/cart" className="bg-green-500 px-3 py-1 rounded">
               Cart ({cartItems.length})
             </Link>
+            <Link to="/my-order" className="text-sm hover:underline ml-4">
+              My Orders
+            </Link>
+
             <button
               onClick={handleLogout}
               className="bg-red-500 px-3 py-1 rounded"

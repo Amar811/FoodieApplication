@@ -7,6 +7,8 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
 import Checkout from './pages/Checkout';
+import MyOrders from './pages/MyOrders';
+import ThankYou from './pages/ThankYou';
 
 const App = () => {
   return (
@@ -19,6 +21,8 @@ const App = () => {
         <Route path="/login"  element={<Login/>}/>
         <Route path="/admin" element={<Admin/>}/>
         <Route path="/checkout" element={<Checkout/>}/>
+        <Route path="/my-order" element={<MyOrders/>}/>
+        <Route path="/thank-you" element={<ThankYou/>} />
       </Routes>
     </BrowserRouter>
   );
